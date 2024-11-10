@@ -7,7 +7,8 @@ namespace lesson2;
 internal class Server
 {
     private static bool isRunning = true;
-    public static void AcceptMsg()
+    private static CancellationTokenSource cancellationToken = new CancellationTokenSource();
+    public static async Task AcceptMsg()
     {
         IPEndPoint ep = new IPEndPoint(IPAddress.Any, 0);
         UdpClient udpClient = new UdpClient(16874);
@@ -19,16 +20,15 @@ internal class Server
             {
                 if (udpClient.Available > 0)
                 {
-                    byte[] buffer = udpClient.Receive(ref ep);
-                    string data = Encoding.UTF8.GetString(buffer);
+                    var data1 = udpClient.Receive(ref ep);
+                    string data = Encoding.UTF8.GetString(data1);
 
                     if (data.Equals("Exit", StringComparison.OrdinalIgnoreCase))
                     {
-                        isRunning = false;
-                        break;
+                        cancellationToken.Cancel();
                     }
 
-                    new Thread(() => 
+                    await Task.Run(async () => 
                     {
                         Message msg = Message.FromJson(data);
                         System.Console.WriteLine(msg.ToString());
@@ -36,8 +36,8 @@ internal class Server
                         Message responseMsg = new Message("Server", "Message accept on server!");
                         string responseMsgJs = responseMsg.ToJson();
                         byte[] responseDate = Encoding.UTF8.GetBytes(responseMsgJs);
-                        udpClient.Send(responseDate, ep);
-                    }).Start();
+                        await udpClient.SendAsync(responseDate, ep);
+                    });
                 } 
             }
             udpClient.Close();

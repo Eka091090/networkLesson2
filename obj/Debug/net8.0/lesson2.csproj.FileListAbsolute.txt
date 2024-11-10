@@ -12,3 +12,4 @@ C:\Users\GrinikAV\Desktop\lesson2\obj\Debug\net8.0\refint\lesson2.dll
 C:\Users\GrinikAV\Desktop\lesson2\obj\Debug\net8.0\lesson2.pdb
 C:\Users\GrinikAV\Desktop\lesson2\obj\Debug\net8.0\lesson2.genruntimeconfig.cache
 C:\Users\GrinikAV\Desktop\lesson2\obj\Debug\net8.0\ref\lesson2.dll
+C:\Users\GrinikAV\Desktop\lesson2\obj\Debug\net8.0\lesson2.sourcelink.json
